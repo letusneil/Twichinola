@@ -51,7 +51,7 @@ class AppModule {
 
   @Provides
   @Singleton
-  fun providesTwitchApi(retrofit: Retrofit): TwitchApi? {
+  fun providesTwitchApi(retrofit: Retrofit): TwitchApi {
     return retrofit.create<TwitchApi>(TwitchApi::class.java)
   }
 
