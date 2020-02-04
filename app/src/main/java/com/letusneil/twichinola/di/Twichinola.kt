@@ -1,6 +1,7 @@
 package com.letusneil.twichinola.di
 
 import android.app.Application
+import androidx.lifecycle.ViewModelProvider
 
 object Twichinola {
 
@@ -8,5 +9,9 @@ object Twichinola {
 
   fun initDependencies(app: Application) {
     appComponent = DaggerAppComponent.factory().create(app)
+  }
+
+  fun viewModelFactory(): ViewModelProvider.Factory {
+    return appComponent.viewModelFactory
   }
 }

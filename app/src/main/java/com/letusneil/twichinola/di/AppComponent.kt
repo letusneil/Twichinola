@@ -1,13 +1,14 @@
 package com.letusneil.twichinola.di
 
 import android.content.Context
-import com.letusneil.twichinola.browse_games.MainActivity
+import androidx.lifecycle.ViewModelProvider
+import com.letusneil.twichinola.ui.browse_games.MainActivity
 import dagger.BindsInstance
 import dagger.Component
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
-@Component(modules = [AppModule::class])
+@Component(modules = [AppModule::class, ViewModelModule::class])
 @Singleton
 interface AppComponent {
 
@@ -16,7 +17,5 @@ interface AppComponent {
     fun create(@BindsInstance applicationContext: Context): AppComponent
   }
 
-  fun inject(mainActivity: MainActivity)
-
-  val retrofit: Retrofit
+  val viewModelFactory: ViewModelProvider.Factory
 }
