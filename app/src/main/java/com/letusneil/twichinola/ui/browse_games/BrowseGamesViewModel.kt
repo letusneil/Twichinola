@@ -19,10 +19,14 @@ class BrowseGamesViewModel @Inject constructor(
   val viewEvent: LiveData<BrowseGamesUIState> get() = _viewEvent
   private val _viewEvent = MutableLiveData<BrowseGamesUIState>()
 
-  fun browseTopGames() {
+  init {
+    browseTopGames()
+  }
+
+  private fun browseTopGames() {
     _viewEvent.value = BrowseGamesUIState.Loading
     disposables.add(
-      twitchApi.topGames(10, 10)
+      twitchApi.topGames(10, 0)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ topgames ->
@@ -43,4 +47,3 @@ class BrowseGamesViewModel @Inject constructor(
     data class Successful(val topGames: List<Top>) : BrowseGamesUIState()
   }
 }
-

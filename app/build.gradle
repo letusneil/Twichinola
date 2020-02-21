@@ -32,7 +32,9 @@ dependencies {
   implementation "androidx.appcompat:appcompat:$versions.androidx"
   implementation "androidx.core:core-ktx:$versions.androidx"
   implementation 'android.arch.lifecycle:extensions:1.1.1'
-  implementation 'androidx.recyclerview:recyclerview:1.0.0'
+  implementation 'androidx.recyclerview:recyclerview:1.1.0'
+  implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
+  implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
   implementation "androidx.preference:preference-ktx:$versions.androidx"
   implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
   implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"

@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface TwitchApi {
 
-  @GET("games/top")
+  @GET("kraken/games/top")
   fun topGames(
     @Query("limit") limit: Int,
     @Query("offset") offset: Int
