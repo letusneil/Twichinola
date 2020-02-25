@@ -27,7 +27,7 @@
 
   <fragment
       android:id="@+id/gameFragment"
-      android:name="com.letusneil.twichinola.ui.game.GameFragment"
+      android:name="com.letusneil.twichinola.ui.game_streams.GameStreamFragment"
       android:label="Game Fragment"
       tools:layout="@layout/fragment_game" />
 

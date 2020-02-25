@@ -3,6 +3,7 @@ package com.letusneil.twichinola.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.letusneil.twichinola.ui.browse_games.BrowseGamesViewModel
+import com.letusneil.twichinola.ui.game_streams.GameStreamViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -17,5 +18,11 @@ abstract class ViewModelModule {
   @IntoMap
   @ViewModelKey(BrowseGamesViewModel::class)
   @Suppress("unused")
-  internal abstract fun mainViewModel(viewModel: BrowseGamesViewModel): ViewModel
+  internal abstract fun browseViewModel(viewModel: BrowseGamesViewModel): ViewModel
+
+  @Binds
+  @IntoMap
+  @ViewModelKey(GameStreamViewModel::class)
+  @Suppress("unused")
+  internal abstract fun gameStreamViewModel(viewModel: GameStreamViewModel): ViewModel
 }

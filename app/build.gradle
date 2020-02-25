@@ -66,6 +66,7 @@ dependencies {
   kapt "com.airbnb.android:epoxy-processor:$versions.epoxy"
   implementation "com.jakewharton:butterknife:$versions.butterknife"
   kapt "com.jakewharton:butterknife-compiler:$versions.butterknife"
+  implementation "androidx.fragment:fragment-ktx:$versions.fragment"
 
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'androidx.test.ext:junit:1.1.1'

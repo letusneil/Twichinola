@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.airbnb.epoxy.EpoxyRecyclerView
@@ -59,7 +61,7 @@ class BrowseFragment : Fragment() {
           viewersCount(topGame.viewers)
           imageUrl(topGame.game.box.medium)
           listener {
-
+            Timber.d("Clicked game ${topGame.game.name}")
           }
         }
       }
