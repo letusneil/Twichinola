@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="color_primary">#202020</color>
+    <color name="color_primary_dark">#1b1b1b</color>
+    <color name="color_accent">@color/purple_A400</color>
+    <color name="color_accent_light">@color/purple_A100</color>
+    <color name="color_accent_dark">@color/purple_A700</color>
+    <color name="window_background">#292929</color>
+    <color name="dialog_background">#393a3c</color>
+    <color name="dialog_like_activity_window_background">@color/black_opacity_40</color>
+
+    <color name="toolbar">@color/gray_900</color>
+    <color name="navigation_bar">@color/gray_950</color>
 </resources>

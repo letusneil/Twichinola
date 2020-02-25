@@ -13,17 +13,6 @@ data class Top(
   val viewers: Int
 )
 
-data class Game(
-  @Json(name = "_id") val _id: Int,
-  val box: Box,
-  @Json(name = "giantbomb_id") val giantbombId: Int,
-  val locale: String,
-  val localized_name: String,
-  val logo: Logo,
-  val name: String,
-  val popularity: Int
-)
-
 data class Box(
   val large: String,
   val medium: String,

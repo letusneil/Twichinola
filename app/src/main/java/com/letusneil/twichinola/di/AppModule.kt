@@ -2,6 +2,7 @@ package com.letusneil.twichinola.di
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.letusneil.twichinola.BuildConfig
+import com.letusneil.twichinola.api.TwitchApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -52,7 +53,8 @@ class AppModule {
   @Provides
   @Singleton
   fun providesTwitchApi(retrofit: Retrofit): TwitchApi {
-    return retrofit.create<TwitchApi>(TwitchApi::class.java)
+    return retrofit.create<TwitchApi>(
+      TwitchApi::class.java)
   }
 
   companion object {

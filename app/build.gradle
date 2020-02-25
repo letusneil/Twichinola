@@ -23,6 +23,14 @@ android {
   buildTypes.each {
     it.buildConfigField 'String', 'TWITCH_CLIENT_ID', TwitchClientId
   }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+}
+
+kapt {
+  correctErrorTypes = true
 }
 
 dependencies {
@@ -30,7 +38,7 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 
   implementation "androidx.appcompat:appcompat:$versions.androidx"
-  implementation "androidx.core:core-ktx:$versions.androidx"
+  implementation "androidx.core:core-ktx:1.2.0"
   implementation 'android.arch.lifecycle:extensions:1.1.1'
   implementation 'androidx.recyclerview:recyclerview:1.1.0'
   implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
@@ -54,6 +62,10 @@ dependencies {
   implementation "com.facebook.stetho:stetho:$versions.stetho"
   implementation "com.facebook.stetho:stetho-okhttp3:$versions.stetho"
   debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+  implementation "com.airbnb.android:epoxy:$versions.epoxy"
+  kapt "com.airbnb.android:epoxy-processor:$versions.epoxy"
+  implementation "com.jakewharton:butterknife:$versions.butterknife"
+  kapt "com.jakewharton:butterknife-compiler:$versions.butterknife"
 
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'androidx.test.ext:junit:1.1.1'

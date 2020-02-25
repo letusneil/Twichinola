@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.letusneil.twichinola.data.Top
-import com.letusneil.twichinola.di.TwitchApi
+import com.letusneil.twichinola.api.TwitchApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -19,11 +19,7 @@ class BrowseGamesViewModel @Inject constructor(
   val viewEvent: LiveData<BrowseGamesUIState> get() = _viewEvent
   private val _viewEvent = MutableLiveData<BrowseGamesUIState>()
 
-  init {
-    browseTopGames()
-  }
-
-  private fun browseTopGames() {
+  fun loadGames() {
     _viewEvent.value = BrowseGamesUIState.Loading
     disposables.add(
       twitchApi.topGames(10, 0)
