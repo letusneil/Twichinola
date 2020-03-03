@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.letusneil.twichinola.R
-import com.letusneil.twichinola.data.Game
+import com.letusneil.twichinola.data.Stream
 import com.letusneil.twichinola.di.Twichinola
-import com.letusneil.twichinola.ui.browse_games.BrowseGamesViewModel
+import timber.log.Timber
 
 class GameStreamFragment : Fragment() {
 
@@ -26,7 +26,7 @@ class GameStreamFragment : Fragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    val view = inflater.inflate(R.layout.fragment_game, container, false)
+    val view = inflater.inflate(R.layout.fragment_game_stream, container, false)
     ButterKnife.bind(this, view)
     return view
   }
@@ -35,5 +35,36 @@ class GameStreamFragment : Fragment() {
     gameStreamViewModel =
       ViewModelProviders.of(this, Twichinola.viewModelFactory())[GameStreamViewModel::class.java]
 
+    gameStreamViewModel.viewEvent.observe(viewLifecycleOwner, Observer {
+      when (it) {
+        is GameStreamsUIState.Successful -> setupGameStreamsRecyclerView(it.streams)
+        is GameStreamsUIState.Loading -> Timber.d("Loading")
+        is GameStreamsUIState.Error -> Timber.d("Error")
+      }
+    })
+
+    val gameName = arguments?.getString("gameName") ?: ""
+    gameStreamViewModel.getGameStreams(gameName)
+  }
+
+  private fun setupGameStreamsRecyclerView(streams: List<Stream>) {
+    streamsRecyclerView.withModels {
+      streams.forEach { stream ->
+        gameStreamsEpoxyHolder {
+          id("top game ${stream.id}")
+          gameName(stream.game)
+          streamerName(stream.channel.display_name)
+          streamPreviewImageUrl(stream.preview.template)
+          streamerImageUrl(stream.channel.logo)
+          streamDescription(stream.channel.status)
+          streamType(stream.stream_type)
+          streamLanguage(stream.channel.broadcaster_language)
+          viewersCount(stream.viewers)
+          listener {
+            Timber.d("Clicked item ${stream.channel.name}")
+          }
+        }
+      }
+    }
   }
 }

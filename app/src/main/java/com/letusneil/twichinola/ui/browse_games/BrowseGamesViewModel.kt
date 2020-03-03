@@ -34,7 +34,9 @@ class BrowseGamesViewModel @Inject constructor(
   }
 
   override fun onCleared() {
-    disposables.clear()
+    if (!disposables.isDisposed) {
+      disposables.dispose()
+    }
   }
 
   sealed class BrowseGamesUIState {

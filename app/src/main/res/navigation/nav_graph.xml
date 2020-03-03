@@ -21,14 +21,20 @@
       android:label="Browse Fragment"
       tools:layout="@layout/fragment_browse">
     <action
-        android:id="@+id/actionGame"
-        app:destination="@id/gameFragment" />
+        android:id="@+id/toGameFragment"
+        app:destination="@id/gameFragment" >
+      <argument
+          android:name="gameName"
+          android:defaultValue="_"
+          app:argType="string" />
+    </action>
   </fragment>
 
   <fragment
       android:id="@+id/gameFragment"
       android:name="com.letusneil.twichinola.ui.game_streams.GameStreamFragment"
       android:label="Game Fragment"
-      tools:layout="@layout/fragment_game" />
+      tools:layout="@layout/fragment_game_stream" />
+
 
 </navigation>

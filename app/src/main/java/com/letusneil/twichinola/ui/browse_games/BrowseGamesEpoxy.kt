@@ -1,5 +1,6 @@
 package com.letusneil.twichinola.ui.browse_games
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
@@ -26,9 +27,11 @@ abstract class TopGameEpoxyHolder : EpoxyModelWithHolder<TopGameEpoxyHolder.Hold
       .load(imageUrl)
       .transition(DrawableTransitionOptions.withCrossFade())
       .into(holder.posterView)
+    holder.parentView.setOnClickListener { listener.invoke() }
   }
 
   class Holder : BaseEpoxyHolder() {
+    val parentView by bind<View>(R.id.item_view)
     val titleView by bind<TextView>(R.id.game_item_title)
     val posterView by bind<ImageView>(R.id.game_item_poster)
     val viewersCountView by bind<TextView>(R.id.game_viewers_count)

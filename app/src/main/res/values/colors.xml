@@ -2,9 +2,9 @@
 <resources>
     <color name="color_primary">#202020</color>
     <color name="color_primary_dark">#1b1b1b</color>
-    <color name="color_accent">@color/purple_A400</color>
-    <color name="color_accent_light">@color/purple_A100</color>
-    <color name="color_accent_dark">@color/purple_A700</color>
+    <color name="color_accent">@color/green_A400</color>
+    <color name="color_accent_light">@color/green_A100</color>
+    <color name="color_accent_dark">@color/green_A700</color>
     <color name="window_background">#292929</color>
     <color name="dialog_background">#393a3c</color>
     <color name="dialog_like_activity_window_background">@color/black_opacity_40</color>

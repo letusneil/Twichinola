@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.airbnb.epoxy.EpoxyRecyclerView
@@ -62,6 +61,7 @@ class BrowseFragment : Fragment() {
           imageUrl(topGame.game.box.medium)
           listener {
             Timber.d("Clicked game ${topGame.game.name}")
+            findNavController().navigate(BrowseFragmentDirections.toGameFragment(topGame.game.name))
           }
         }
       }
