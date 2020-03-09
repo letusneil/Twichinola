@@ -1,12 +1,14 @@
 package com.letusneil.twichinola.ui.browse_games
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -15,10 +17,13 @@ import com.letusneil.twichinola.R
 import com.letusneil.twichinola.data.Top
 import com.letusneil.twichinola.di.Twichinola
 import timber.log.Timber
+import javax.inject.Inject
 
 class BrowseFragment : Fragment() {
 
-  private lateinit var viewModel: BrowseGamesViewModel
+  @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+
+  private val viewModel: BrowseGamesViewModel by viewModels { viewModelFactory }
 
   @BindView(R.id.top_games_list) lateinit var topGamesRecyclerView: EpoxyRecyclerView
 
@@ -32,10 +37,12 @@ class BrowseFragment : Fragment() {
     return view
   }
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    viewModel =
-      ViewModelProviders.of(this, Twichinola.viewModelFactory())[BrowseGamesViewModel::class.java]
+  override fun onAttach(context: Context) {
+    Twichinola.dependencyInjector().inject(this)
+    super.onAttach(context)
+  }
 
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     initGames()
   }
 
