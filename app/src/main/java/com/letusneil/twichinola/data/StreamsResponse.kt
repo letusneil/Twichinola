@@ -55,3 +55,8 @@ data class Preview(
   val small: String,
   val template: String
 )
+
+data class Quality(
+  val name: String,
+  val url: String
+)

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.airbnb.epoxy.EpoxyRecyclerView
@@ -69,6 +70,7 @@ class GameStreamFragment : Fragment() {
           viewersCount(stream.viewers)
           listener {
             Timber.d("Clicked item ${stream.channel.name}")
+            findNavController().navigate(GameStreamFragmentDirections.toPlayerFragment())
           }
         }
       }

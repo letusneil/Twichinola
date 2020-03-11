@@ -31,8 +31,6 @@ class AppModule {
     }
     builder.addInterceptor { chain: Interceptor.Chain ->
       val request = chain.request().newBuilder()
-        .addHeader("Client-ID", BuildConfig.TWITCH_CLIENT_ID)
-        .addHeader("Accept", TWITCH_API_VERSION)
         .build()
       chain.proceed(request)
     }
@@ -60,6 +58,5 @@ class AppModule {
 
   companion object {
     private const val TWITCH_BASE_URL = "https://api.twitch.tv/"
-    private const val TWITCH_API_VERSION = "application/vnd.twitchtv.v5+json"
   }
 }

@@ -36,7 +36,7 @@
       android:label="Game Fragment"
       tools:layout="@layout/fragment_game_stream">
     <action
-        android:id="@+id/action_gameFragment_to_playerFragment"
+        android:id="@+id/toPlayerFragment"
         app:destination="@id/playerFragment" />
   </fragment>
 

@@ -22,6 +22,7 @@ android {
     }
   }
   buildTypes.each {
+    it.buildConfigField 'String', 'TWICHINOLA_CLIENT_ID', TwichinolaClientId
     it.buildConfigField 'String', 'TWITCH_CLIENT_ID', TwitchClientId
   }
   compileOptions {
