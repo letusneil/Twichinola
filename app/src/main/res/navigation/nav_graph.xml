@@ -22,7 +22,7 @@
       tools:layout="@layout/fragment_browse">
     <action
         android:id="@+id/toGameFragment"
-        app:destination="@id/gameFragment" >
+        app:destination="@id/gameFragment">
       <argument
           android:name="gameName"
           android:defaultValue="_"
@@ -34,7 +34,16 @@
       android:id="@+id/gameFragment"
       android:name="com.letusneil.twichinola.ui.game_streams.GameStreamFragment"
       android:label="Game Fragment"
-      tools:layout="@layout/fragment_game_stream" />
+      tools:layout="@layout/fragment_game_stream">
+    <action
+        android:id="@+id/action_gameFragment_to_playerFragment"
+        app:destination="@id/playerFragment" />
+  </fragment>
 
+  <fragment
+      android:id="@+id/playerFragment"
+      android:name="com.letusneil.twichinola.ui.player.PlayerFragment"
+      android:label="fragment_player"
+      tools:layout="@layout/fragment_player" />
 
 </navigation>
