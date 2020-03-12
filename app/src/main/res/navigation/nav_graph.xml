@@ -9,7 +9,7 @@
       android:id="@+id/launcherFragment"
       android:name="com.letusneil.twichinola.ui.launcher.LauncherFragment"
       android:label="Launcher Fragment"
-      tools:layout="@layout/fragment_launcher">
+      tools:layout="@layout/launcher_fragment">
     <action
         android:id="@+id/actionBrowse"
         app:destination="@id/browseFragment" />
@@ -19,7 +19,7 @@
       android:id="@+id/browseFragment"
       android:name="com.letusneil.twichinola.ui.browse_games.BrowseFragment"
       android:label="Browse Fragment"
-      tools:layout="@layout/fragment_browse">
+      tools:layout="@layout/browse_fragment">
     <action
         android:id="@+id/toGameFragment"
         app:destination="@id/gameFragment">
@@ -34,16 +34,21 @@
       android:id="@+id/gameFragment"
       android:name="com.letusneil.twichinola.ui.game_streams.GameStreamFragment"
       android:label="Game Fragment"
-      tools:layout="@layout/fragment_game_stream">
+      tools:layout="@layout/game_streams_fragment">
     <action
         android:id="@+id/toPlayerFragment"
-        app:destination="@id/playerFragment" />
+        app:destination="@id/playerFragment" >
+      <argument
+        android:name="channelName"
+        android:defaultValue="_"
+        app:argType="string" />
+    </action>
   </fragment>
 
   <fragment
       android:id="@+id/playerFragment"
       android:name="com.letusneil.twichinola.ui.player.PlayerFragment"
       android:label="fragment_player"
-      tools:layout="@layout/fragment_player" />
+      tools:layout="@layout/play_fragment" />
 
 </navigation>

@@ -32,7 +32,7 @@ class BrowseFragment : Fragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    val view = inflater.inflate(R.layout.fragment_browse, container, false)
+    val view = inflater.inflate(R.layout.browse_fragment, container, false)
     ButterKnife.bind(this, view)
     return view
   }

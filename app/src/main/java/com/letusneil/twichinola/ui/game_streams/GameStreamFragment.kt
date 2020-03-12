@@ -32,7 +32,7 @@ class GameStreamFragment : Fragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    val view = inflater.inflate(R.layout.fragment_game_stream, container, false)
+    val view = inflater.inflate(R.layout.game_streams_fragment, container, false)
     ButterKnife.bind(this, view)
     return view
   }
@@ -69,8 +69,7 @@ class GameStreamFragment : Fragment() {
           streamLanguage(stream.channel.broadcaster_language)
           viewersCount(stream.viewers)
           listener {
-            Timber.d("Clicked item ${stream.channel.name}")
-            findNavController().navigate(GameStreamFragmentDirections.toPlayerFragment())
+            findNavController().navigate(GameStreamFragmentDirections.toPlayerFragment(stream.channel.name))
           }
         }
       }

@@ -33,9 +33,7 @@ class GameStreamViewModel @Inject constructor(
   }
 
   override fun onCleared() {
-    if (!disposables.isDisposed) {
-      disposables.dispose()
-    }
+    disposables.clear()
   }
 }
 

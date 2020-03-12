@@ -11,7 +11,7 @@ import com.letusneil.twichinola.R
 import com.letusneil.twichinola.di.Twichinola
 import javax.inject.Inject
 
-class PlayerFragment : Fragment(R.layout.fragment_player) {
+class PlayerFragment : Fragment(R.layout.play_fragment) {
 
   @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -21,8 +21,10 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     viewModel.viewEvent.observe(viewLifecycleOwner, Observer {
 
     })
-    viewModel.getStreamUrlAndQualityMap("admiralbulldog")
+    viewModel.getStreamUrlAndQualityMap("")
   }
+
+
 
   override fun onAttach(context: Context) {
     Twichinola.dependencyInjector().inject(this)
