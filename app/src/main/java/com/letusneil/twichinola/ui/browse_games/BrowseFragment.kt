@@ -15,27 +15,18 @@ import butterknife.ButterKnife
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.letusneil.twichinola.R
 import com.letusneil.twichinola.data.Top
+import com.letusneil.twichinola.databinding.BrowseFragmentBinding
 import com.letusneil.twichinola.di.Twichinola
 import timber.log.Timber
 import javax.inject.Inject
 
-class BrowseFragment : Fragment() {
+class BrowseFragment : Fragment(R.layout.browse_fragment) {
 
   @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
   private val viewModel: BrowseGamesViewModel by viewModels { viewModelFactory }
 
-  @BindView(R.id.top_games_list) lateinit var topGamesRecyclerView: EpoxyRecyclerView
-
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    val view = inflater.inflate(R.layout.browse_fragment, container, false)
-    ButterKnife.bind(this, view)
-    return view
-  }
+  private lateinit var binding: BrowseFragmentBinding
 
   override fun onAttach(context: Context) {
     Twichinola.dependencyInjector().inject(this)
@@ -43,6 +34,7 @@ class BrowseFragment : Fragment() {
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    binding = BrowseFragmentBinding.bind(view)
     initGames()
   }
 
@@ -54,12 +46,11 @@ class BrowseFragment : Fragment() {
         is BrowseGamesViewModel.BrowseGamesUIState.Error -> Timber.d("Error")
       }
     })
-
     viewModel.loadGames()
   }
 
   private fun setupTopGamesRecyclerView(topGames: List<Top>) {
-    topGamesRecyclerView.withModels {
+    binding.topGamesList.withModels {
       topGames.forEach { topGame ->
         topGameEpoxyHolder {
           id("top game $topGame.game.id")
@@ -74,5 +65,4 @@ class BrowseFragment : Fragment() {
       }
     }
   }
-
 }

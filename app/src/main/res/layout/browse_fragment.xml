@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
   <com.airbnb.epoxy.EpoxyRecyclerView
-      android:id="@+id/top_games_list"
+      android:id="@+id/topGamesList"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 

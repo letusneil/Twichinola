@@ -49,6 +49,6 @@
       android:id="@+id/playerFragment"
       android:name="com.letusneil.twichinola.ui.player.PlayerFragment"
       android:label="fragment_player"
-      tools:layout="@layout/play_fragment" />
+      tools:layout="@layout/player_fragment" />
 
 </navigation>
