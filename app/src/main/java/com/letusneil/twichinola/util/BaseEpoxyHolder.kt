@@ -1,4 +1,4 @@
-package com.letusneil.twichinola.helpers
+package com.letusneil.twichinola.util
 
 import android.view.View
 import androidx.annotation.CallSuper

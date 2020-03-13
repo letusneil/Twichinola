@@ -1,4 +1,4 @@
-package com.letusneil.twichinola.helpers
+package com.letusneil.twichinola.util
 
 const val TEMPLATE_IMAGE_WIDTH = "{width}"
 const val TEMPLATE_IMAGE_HEIGHT = "{height}"

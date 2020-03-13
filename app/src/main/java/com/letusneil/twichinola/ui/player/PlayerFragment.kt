@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.letusneil.twichinola.R
 import com.letusneil.twichinola.databinding.PlayerFragmentBinding
 import com.letusneil.twichinola.di.Twichinola
+import com.letusneil.twichinola.util.autoCleared
 import javax.inject.Inject
 
 class PlayerFragment : Fragment(R.layout.player_fragment) {
@@ -18,7 +19,7 @@ class PlayerFragment : Fragment(R.layout.player_fragment) {
 
   private val viewModel: PlayerViewModel by viewModels { viewModelFactory }
 
-  private lateinit var binding: PlayerFragmentBinding
+  private var binding by autoCleared<PlayerFragmentBinding>()
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     binding = PlayerFragmentBinding.bind(view)

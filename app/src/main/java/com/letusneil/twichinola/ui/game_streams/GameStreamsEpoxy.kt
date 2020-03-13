@@ -11,9 +11,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.letusneil.twichinola.R
-import com.letusneil.twichinola.helpers.BaseEpoxyHolder
-import com.letusneil.twichinola.helpers.TEMPLATE_IMAGE_HEIGHT
-import com.letusneil.twichinola.helpers.TEMPLATE_IMAGE_WIDTH
+import com.letusneil.twichinola.util.BaseEpoxyHolder
+import com.letusneil.twichinola.util.TEMPLATE_IMAGE_HEIGHT
+import com.letusneil.twichinola.util.TEMPLATE_IMAGE_WIDTH
 import java.text.NumberFormat
 import java.util.*
 

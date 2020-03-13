@@ -9,7 +9,7 @@ import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.letusneil.twichinola.R
-import com.letusneil.twichinola.helpers.BaseEpoxyHolder
+import com.letusneil.twichinola.util.BaseEpoxyHolder
 import java.text.NumberFormat
 
 @EpoxyModelClass(layout = R.layout.item_top_game)

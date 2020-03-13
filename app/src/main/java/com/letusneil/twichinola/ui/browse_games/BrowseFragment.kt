@@ -17,6 +17,7 @@ import com.letusneil.twichinola.R
 import com.letusneil.twichinola.data.Top
 import com.letusneil.twichinola.databinding.BrowseFragmentBinding
 import com.letusneil.twichinola.di.Twichinola
+import com.letusneil.twichinola.util.autoCleared
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -26,7 +27,7 @@ class BrowseFragment : Fragment(R.layout.browse_fragment) {
 
   private val viewModel: BrowseGamesViewModel by viewModels { viewModelFactory }
 
-  private lateinit var binding: BrowseFragmentBinding
+  private var binding by autoCleared<BrowseFragmentBinding>()
 
   override fun onAttach(context: Context) {
     Twichinola.dependencyInjector().inject(this)

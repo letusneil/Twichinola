@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.letusneil.twichinola.api.TwitchApi
 import com.letusneil.twichinola.data.Quality
-import com.letusneil.twichinola.helpers.QUALITY_AUTO
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

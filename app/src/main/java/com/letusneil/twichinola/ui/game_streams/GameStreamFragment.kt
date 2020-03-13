@@ -12,6 +12,7 @@ import com.letusneil.twichinola.R
 import com.letusneil.twichinola.data.Stream
 import com.letusneil.twichinola.databinding.GameStreamsFragmentBinding
 import com.letusneil.twichinola.di.Twichinola
+import com.letusneil.twichinola.util.autoCleared
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class GameStreamFragment : Fragment(R.layout.game_streams_fragment) {
 
   @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-  private lateinit var binding: GameStreamsFragmentBinding
+  private var binding by autoCleared<GameStreamsFragmentBinding>()
 
   private val viewModel: GameStreamViewModel by viewModels { viewModelFactory }
 
