@@ -6,6 +6,8 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -77,6 +79,7 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
 
   private fun toggleFullScreen() {
     activity?.run {
+
       this.requestedOrientation =
         if (landscape) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -85,11 +88,10 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
 
   override fun onConfigurationChanged(newConfig: Configuration) {
     super.onConfigurationChanged(newConfig)
-    if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-      landscape = true
+    landscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
+    if (landscape) {
       enterFullScreenUi()
-    } else if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-      landscape = false
+    } else {
       exitFullScreenUi()
     }
   }
