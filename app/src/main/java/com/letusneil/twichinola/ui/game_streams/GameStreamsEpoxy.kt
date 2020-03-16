@@ -20,7 +20,8 @@ import java.util.*
 @EpoxyModelClass(layout = R.layout.item_game_stream)
 abstract class GameStreamsEpoxyHolder : EpoxyModelWithHolder<GameStreamsEpoxyHolder.Holder>() {
 
-  @EpoxyAttribute lateinit var listener: () -> Unit
+  @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) lateinit var listener: () -> Unit
+
   @EpoxyAttribute lateinit var streamPreviewImageUrl: String
   @EpoxyAttribute lateinit var streamerImageUrl: String
   @EpoxyAttribute lateinit var gameName: String

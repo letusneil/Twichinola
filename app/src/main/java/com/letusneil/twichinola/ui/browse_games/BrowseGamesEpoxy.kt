@@ -15,7 +15,8 @@ import java.text.NumberFormat
 @EpoxyModelClass(layout = R.layout.item_top_game)
 abstract class TopGameEpoxyHolder : EpoxyModelWithHolder<TopGameEpoxyHolder.Holder>() {
 
-  @EpoxyAttribute lateinit var listener: () -> Unit
+  @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) lateinit var listener: () -> Unit
+
   @EpoxyAttribute lateinit var title: String
   @EpoxyAttribute lateinit var imageUrl: String
   @EpoxyAttribute open var viewersCount: Int = 0

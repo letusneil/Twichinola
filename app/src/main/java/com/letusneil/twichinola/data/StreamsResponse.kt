@@ -56,6 +56,11 @@ data class Preview(
   val template: String
 )
 
+data class LiveStreamQuality(
+  val name: String,
+  val quality: Quality
+)
+
 data class Quality(
   val name: String,
   val url: String
