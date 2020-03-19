@@ -23,8 +23,10 @@ class PlayerViewModel @Inject constructor(
 
   private val disposables = CompositeDisposable()
 
-  val viewEvent: LiveData<List<LiveStreamQuality>> get() = _viewEvent
-  private val _viewEvent = MutableLiveData<List<LiveStreamQuality>>()
+  val streamQualities: LiveData<List<LiveStreamQuality>> get() = _streamQualities
+  private val _streamQualities = MutableLiveData<List<LiveStreamQuality>>()
+
+  val qualityChangeEvent = MutableLiveData<String>()
 
   private var autoQualityUrl = ""
 
@@ -49,7 +51,7 @@ class PlayerViewModel @Inject constructor(
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
-          _viewEvent.value = getStreamQualityUrlMap(it)
+          _streamQualities.value = getStreamQualityUrlMap(it)
         }, {
           Timber.e(it)
         })
@@ -66,7 +68,7 @@ class PlayerViewModel @Inject constructor(
         name = QUALITY_AUTO,
         quality = Quality(
           name = "AUTO",
-          url = autoQualityUrl
+          url = autoQualityUrl.replace(" ", "%20")
         )
       )
     )
@@ -84,6 +86,8 @@ class PlayerViewModel @Inject constructor(
         )
       )
     }
+
+    Timber.d("Results results")
     return results
   }
 

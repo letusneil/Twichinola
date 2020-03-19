@@ -19,16 +19,27 @@ class BrowseGamesViewModel @Inject constructor(
   val viewEvent: LiveData<BrowseGamesUIState> get() = _viewEvent
   private val _viewEvent = MutableLiveData<BrowseGamesUIState>()
 
+  val topGames: List<Top> get() = _topGames
+  private val _topGames = mutableListOf<Top>()
+
+  private var loadingNextPage = false
+
   fun loadGames() {
+    if (loadingNextPage) return
+
+    loadingNextPage = true
     _viewEvent.value = BrowseGamesUIState.Loading
     disposables.add(
-      twitchApi.topGames(10, 0)
+      twitchApi.topGames(10, topGames.size)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ topgames ->
-          _viewEvent.value = BrowseGamesUIState.Successful(topGames = topgames.top)
+          _topGames.addAll(topgames.top)
+          _viewEvent.value = BrowseGamesUIState.Successful(_topGames)
+          loadingNextPage = false
         }, {
           _viewEvent.value = BrowseGamesUIState.Error
+          loadingNextPage = false
         })
     )
   }

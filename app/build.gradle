@@ -77,6 +77,7 @@ dependencies {
   kapt "com.jakewharton:butterknife-compiler:$versions.butterknife"
   implementation "androidx.fragment:fragment-ktx:$versions.fragment"
   implementation 'com.google.android.exoplayer:exoplayer:2.11.3'
+  implementation 'com.google.android.material:material:1.2.0-alpha05'
 
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'androidx.test.ext:junit:1.1.1'

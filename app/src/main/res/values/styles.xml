@@ -1,20 +1,25 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_accent</item>
+  <style name="Theme.Twichinola.DayNight" parent="Theme.Twichinola"/>
 
-        <item name="android:textViewStyle">@style/PoppinsTextViewStyle</item>
-        <item name="buttonStyle">@style/PoppinsButtonStyle</item>
-    </style>
+  <style name="Theme.Twichinola" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <item name="colorPrimary">@color/color_primary</item>
+    <item name="colorPrimaryDark">@color/color_primary_dark</item>
+    <item name="colorAccent">@color/color_accent</item>
 
-    <style name="PoppinsTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">@font/poppins</item>
-    </style>
+    <item name="android:textViewStyle">@style/PoppinsTextViewStyle</item>
+    <item name="buttonStyle">@style/PoppinsButtonStyle</item>
 
-    <style name="PoppinsButtonStyle" parent="android:Widget.Holo.Button">
-        <item name="android:fontFamily">@font/poppins</item>
-    </style>
+    <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Twichinola.SmallComponent</item>
+    <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Twichinola.MediumComponent</item>
+    <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Twichinola.LargeComponent</item>
+  </style>
 
+  <style name="PoppinsTextViewStyle" parent="android:Widget.TextView">
+    <item name="android:fontFamily">@font/poppins</item>
+  </style>
+
+  <style name="PoppinsButtonStyle" parent="android:Widget.Holo.Button">
+    <item name="android:fontFamily">@font/poppins</item>
+  </style>
 </resources>

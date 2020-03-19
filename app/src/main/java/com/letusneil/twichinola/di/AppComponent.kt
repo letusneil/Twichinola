@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.letusneil.twichinola.ui.browse_games.BrowseFragment
 import com.letusneil.twichinola.ui.game_streams.GameStreamFragment
 import com.letusneil.twichinola.ui.player.PlayerFragment
+import com.letusneil.twichinola.ui.player.QualityOptionsBottomSheetDialogFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -18,11 +19,13 @@ interface AppComponent {
     fun create(@BindsInstance applicationContext: Context): AppComponent
   }
 
-  fun inject(browseFragment: BrowseFragment)
+  fun inject(target: BrowseFragment)
 
-  fun inject(gameStreamFragment: GameStreamFragment)
+  fun inject(target: GameStreamFragment)
 
-  fun inject(playerFragment: PlayerFragment)
+  fun inject(target: PlayerFragment)
+
+  fun inject(target: QualityOptionsBottomSheetDialogFragment)
 
   val viewModelFactory: ViewModelProvider.Factory
 }

@@ -28,9 +28,10 @@ import javax.inject.Inject
 class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener {
 
   @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel: PlayerViewModel by viewModels { viewModelFactory }
+  private val playerViewModel: PlayerViewModel by viewModels { viewModelFactory }
 
   private var binding by autoCleared<PlayerFragmentBinding>()
+  private var qualityOptionsBottomSheet by autoCleared<QualityOptionsBottomSheetDialogFragment>()
   private var exoPlayer by autoCleared<ExoPlayer>()
 
   private var delayAnimationHandler = Handler()
@@ -50,22 +51,29 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
     exoPlayer.addListener(this)
     binding.playerView.player = exoPlayer
 
-    binding.clickInterceptorView.setOnClickListener {
-      if (isPlayerControlsVisible()) {
-        hidePlayerOverlay()
-      } else {
-        showPlayerOverlay()
-      }
-    }
+//    binding.clickInterceptorView.setOnClickListener {
+//      if (isPlayerControlsVisible()) {
+//        hidePlayerOverlay()
+//      } else {
+//        showPlayerOverlay()
+//      }
+//    }
     binding.fullScreenButton.setOnClickListener { toggleFullScreen() }
 
-    viewModel.viewEvent.observe(viewLifecycleOwner, Observer {
-      preparePlayer(it[1].quality.url)
+    qualityOptionsBottomSheet = QualityOptionsBottomSheetDialogFragment(playerViewModel)
+    binding.qualitySettingsButton.setOnClickListener {
+      qualityOptionsBottomSheet.show(requireActivity().supportFragmentManager, null)
+    }
+
+    playerViewModel.streamQualities.observe(viewLifecycleOwner, Observer {
+      preparePlayer(it[0].quality.url)
+    })
+    playerViewModel.qualityChangeEvent.observe(viewLifecycleOwner, Observer {
+      preparePlayer(it)
     })
 
-    
-
-    viewModel.getStreamUrlAndQualityMap(channelName)
+    val channelName = arguments?.getString("channelName") ?: ""
+    playerViewModel.getStreamUrlAndQualityMap(channelName)
   }
 
   override fun onAttach(context: Context) {
@@ -74,6 +82,7 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
   }
 
   private fun preparePlayer(url: String) {
+    Timber.d("Preparing stream url $url")
     val dataSourceFactory = DefaultDataSourceFactory(requireContext(), getString(R.string.app_name))
     val mediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url))
     exoPlayer.prepare(mediaSource)
@@ -124,11 +133,11 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
   private fun isPlayerControlsVisible() = binding.playerOverlayView.alpha == 1f
 
   private fun hidePlayerOverlay() {
-    delayAnimationHandler.removeCallbacks(hideAnimationRunnable)
-
-    binding.playerOverlayView.apply {
-      animate().alpha(0f).setInterpolator(AccelerateDecelerateInterpolator()).start()
-    }
+//    delayAnimationHandler.removeCallbacks(hideAnimationRunnable)
+//
+//    binding.playerOverlayView.apply {
+//      animate().alpha(0f).setInterpolator(AccelerateDecelerateInterpolator()).start()
+//    }
   }
 
   private fun showPlayerOverlay() {

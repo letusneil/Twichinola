@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="ShapeAppearance.Twichinola.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">@dimen/reply_medium_component_corner_radius</item>
+  </style>
+
+  <style name="ShapeAppearance.Twichinola.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">@dimen/reply_medium_component_corner_radius</item>
+  </style>
+
+  <style name="ShapeAppearance.Twichinola.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">@dimen/large_component_corner_radius</item>
+  </style>
+
+  <dimen name="reply_medium_component_corner_radius">12dp</dimen>
+  <dimen name="large_component_corner_radius">16dp</dimen>
+</resources>

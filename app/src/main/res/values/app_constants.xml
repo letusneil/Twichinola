@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="quality_auto_base_url">http://usher.twitch.tv/api/channel/hls/%1$s.m3u8?player=twitchweb&amp;token=$2$s&amp;sig=%3$s&amp;allow_audio_only=true&amp;allow_source=true&amp;type=any&amp;p=%4$s</string>
+  <string name="quality_auto_base_url">http://usher.twitch.tv/api/channel/hls/%1$s.m3u8?player=twitchweb&amp;token=%2$s&amp;sig=%3$s&amp;allow_audio_only=true&amp;allow_source=true&amp;type=any&amp;p=%4$s</string>
 </resources>
