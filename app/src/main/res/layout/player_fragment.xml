@@ -17,7 +17,9 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.0"
-      app:use_controller="false" />
+      app:use_controller="false">
+
+  </com.google.android.exoplayer2.ui.PlayerView>
 
   <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/playerOverlayView"
@@ -72,6 +74,80 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:src="@drawable/ic_arrow_back_24px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/qualitySettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:src="@drawable/ic_settings_24px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/streamInfoView"
+      android:layout_width="0dp"
+      android:layout_height="120dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/playerOverlayView">
+
+    <ImageView
+        android:id="@+id/streamerPictureView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/gameName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/color_accent"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/streamDescription"
+        app:layout_constraintTop_toBottomOf="@+id/streamDescription"
+        tools:text="Dota2" />
+
+    <TextView
+        android:id="@+id/streamernName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/streamerPictureView"
+        app:layout_constraintTop_toTopOf="@+id/streamerPictureView"
+        tools:text="Arteezy" />
+
+    <TextView
+        android:id="@+id/streamDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:maxLines="2"
+        android:textColor="@color/white_opacity_80"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/streamernName"
+        app:layout_constraintTop_toBottomOf="@+id/streamernName"
+        tools:text="The big shark is a good shark" />
+
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <View

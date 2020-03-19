@@ -62,7 +62,9 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
     viewModel.viewEvent.observe(viewLifecycleOwner, Observer {
       preparePlayer(it[1].quality.url)
     })
-    val channelName = arguments?.getString("channelName") ?: ""
+
+    
+
     viewModel.getStreamUrlAndQualityMap(channelName)
   }
 
