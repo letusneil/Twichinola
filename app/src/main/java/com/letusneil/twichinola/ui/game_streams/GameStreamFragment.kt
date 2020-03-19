@@ -8,6 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.letusneil.twichinola.R
 import com.letusneil.twichinola.data.Stream
 import com.letusneil.twichinola.databinding.GameStreamsFragmentBinding
@@ -31,19 +33,30 @@ class GameStreamFragment : Fragment(R.layout.game_streams_fragment) {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     binding = GameStreamsFragmentBinding.bind(view)
+    val gameName = arguments?.getString("gameName") ?: ""
+
+    binding.streamsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+      override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        val lastPosition = layoutManager.findLastVisibleItemPosition()
+        if (lastPosition == viewModel.streams.size - 1) {
+          viewModel.getGameStreams(gameName)
+        }
+      }
+    })
+
     viewModel.viewEvent.observe(viewLifecycleOwner, Observer {
       when (it) {
-        is GameStreamsUIState.Successful -> setupGameStreamsRecyclerView(it.streams)
+        is GameStreamsUIState.Successful -> setStreams(it.streams)
         is GameStreamsUIState.Loading -> Timber.d("Loading")
         is GameStreamsUIState.Error -> Timber.d("Error")
       }
     })
 
-    val gameName = arguments?.getString("gameName") ?: ""
     viewModel.getGameStreams(gameName)
   }
 
-  private fun setupGameStreamsRecyclerView(streams: List<Stream>) {
+  private fun setStreams(streams: List<Stream>) {
     binding.streamsList.withModels {
       streams.forEach { stream ->
         gameStreamsEpoxyHolder {

@@ -66,7 +66,6 @@ class BrowseFragment : Fragment(R.layout.browse_fragment) {
           viewersCount(topGame.viewers)
           imageUrl(topGame.game.box.medium)
           listener {
-            Timber.d("Clicked game ${topGame.game.name}")
             findNavController().navigate(BrowseFragmentDirections.toGameFragment(topGame.game.name))
           }
         }

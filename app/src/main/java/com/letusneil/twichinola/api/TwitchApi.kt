@@ -24,7 +24,9 @@ interface TwitchApi {
   @GET("kraken/streams")
   @Headers(value = [HEADER_TWITCH_API_VERSION, HEADER_PUBLIC_CLIENT_ID])
   fun streams(
-    @Query("game") game: String
+    @Query("game") game: String,
+    @Query("limit") limit: Int,
+    @Query("offset") offset: Int
   ): Single<StreamsResponse>
 
   @GET("https://api.twitch.tv/api/channels/{channelName}/access_token")

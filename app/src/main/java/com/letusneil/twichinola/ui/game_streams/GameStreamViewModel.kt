@@ -19,15 +19,26 @@ class GameStreamViewModel @Inject constructor(
   val viewEvent: LiveData<GameStreamsUIState> get() = _viewEvent
   private val _viewEvent = MutableLiveData<GameStreamsUIState>()
 
+  val streams: List<Stream> get() = _streams
+  private val _streams = mutableListOf<Stream>()
+
+  private var loadingNextPage = false
+
   fun getGameStreams(name: String) {
+    if (loadingNextPage) return
+
+    loadingNextPage = true
     disposables.add(
-      twitchApi.streams(name)
+      twitchApi.streams(name, 10, streams.size)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ data ->
-          _viewEvent.value = GameStreamsUIState.Successful(data.streams)
+          _streams.addAll(data.streams)
+          _viewEvent.value = GameStreamsUIState.Successful(_streams)
+          loadingNextPage = false
         }, {
           _viewEvent.value = GameStreamsUIState.Error
+          loadingNextPage = false
         })
     )
   }
