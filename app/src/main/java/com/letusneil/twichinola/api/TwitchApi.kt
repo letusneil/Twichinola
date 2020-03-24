@@ -1,10 +1,7 @@
 package com.letusneil.twichinola.api
 
 import com.letusneil.twichinola.BuildConfig
-import com.letusneil.twichinola.data.AccessToken
-import com.letusneil.twichinola.data.Stream
-import com.letusneil.twichinola.data.StreamsResponse
-import com.letusneil.twichinola.data.TopGamesReponse
+import com.letusneil.twichinola.data.*
 import com.letusneil.twichinola.di.AppModule
 import io.reactivex.Single
 import retrofit2.http.GET
@@ -46,6 +43,9 @@ interface TwitchApi {
     @Query("type") type: String = "any",
     @Query("p") p: Long = System.currentTimeMillis()
   ): Single<String>
+
+  @GET("kraken/search/games")
+  fun searchGames(@Query("query") queryString: String): Single<List<Game>>
 
   companion object {
     const val HEADER_TWITCH_API_VERSION = "Accept: application/vnd.twitchtv.v5+json"

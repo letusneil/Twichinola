@@ -1,4 +1,4 @@
-package com.letusneil.twichinola.ui.game_streams
+package com.letusneil.twichinola.ui.gamestreams
 
 import android.content.Context
 import android.os.Bundle
@@ -59,18 +59,23 @@ class GameStreamFragment : Fragment(R.layout.game_streams_fragment) {
   private fun setStreams(streams: List<Stream>) {
     binding.streamsList.withModels {
       streams.forEach { stream ->
-        gameStreamsEpoxyHolder {
-          id("top game ${stream.id}")
-          gameName(stream.game)
-          streamerName(stream.channel.display_name)
-          streamPreviewImageUrl(stream.preview.template)
-          streamerImageUrl(stream.channel.logo)
-          streamDescription(stream.channel.status)
-          streamType(stream.stream_type)
-          streamLanguage(stream.channel.broadcaster_language)
-          viewersCount(stream.viewers)
-          listener {
-            findNavController().navigate(GameStreamFragmentDirections.toPlayerFragment(stream.channel.name))
+        with(stream) {
+          gameStreamsEpoxyHolder {
+            id("stream_id_${channel.name}")
+            Timber.d("Id stream_id_${channel.name}")
+            gameName(game)
+            streamerName(channel.display_name)
+            streamPreviewImageUrl(preview.template)
+            streamerImageUrl(channel.logo)
+            streamDescription(channel.status)
+            streamType(stream_type)
+            streamLanguage(channel.broadcaster_language)
+            viewersCount(viewers)
+            listener {
+              findNavController().navigate(
+                GameStreamFragmentDirections.toPlayerFragment(channel.name)
+              )
+            }
           }
         }
       }

@@ -1,4 +1,4 @@
-package com.letusneil.twichinola.ui.browse_games
+package com.letusneil.twichinola.ui.topgames
 
 import android.content.Context
 import android.os.Bundle
@@ -18,11 +18,11 @@ import com.letusneil.twichinola.util.autoCleared
 import timber.log.Timber
 import javax.inject.Inject
 
-class BrowseFragment : Fragment(R.layout.browse_fragment) {
+class TopGamesFragment : Fragment(R.layout.browse_fragment) {
 
   @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-  private val viewModel: BrowseGamesViewModel by viewModels { viewModelFactory }
+  private val viewModel: TopGamesViewModel by viewModels { viewModelFactory }
 
   private var binding by autoCleared<BrowseFragmentBinding>()
 
@@ -49,24 +49,29 @@ class BrowseFragment : Fragment(R.layout.browse_fragment) {
 
     viewModel.viewEvent.observe(viewLifecycleOwner, Observer {
       when (it) {
-        is BrowseGamesViewModel.BrowseGamesUIState.Successful -> setTopGames(it.topGames)
-        is BrowseGamesViewModel.BrowseGamesUIState.Loading -> Timber.d("Loading")
-        is BrowseGamesViewModel.BrowseGamesUIState.Error -> Timber.d("Error")
+        is TopGamesViewModel.BrowseGamesUIState.Successful -> setTopGames(it.topGames)
+        is TopGamesViewModel.BrowseGamesUIState.Loading -> Timber.d("Loading")
+        is TopGamesViewModel.BrowseGamesUIState.Error -> Timber.d("Error")
       }
     })
     viewModel.loadGames()
   }
 
   private fun setTopGames(topGames: List<Top>) {
-    binding.topGamesList.withModels {
+    binding.topGamesList.withModels{
       topGames.forEach { topGame ->
-        topGameEpoxyHolder {
-          id("top game $topGame.game.id")
-          title(topGame.game.localized_name)
-          viewersCount(topGame.viewers)
-          imageUrl(topGame.game.box.medium)
-          listener {
-            findNavController().navigate(BrowseFragmentDirections.toGameFragment(topGame.game.name))
+        with(topGame) {
+          topGameEpoxyHolder {
+            id("stream_id_${game.localized_name}")
+            Timber.d("Id stream_id_${game.localized_name}")
+            title(game.localized_name)
+            viewersCount(viewers)
+            imageUrl(game.box.medium)
+            listener {
+              findNavController().navigate(
+                TopGamesFragmentDirections.toGameFragment(game.name)
+              )
+            }
           }
         }
       }

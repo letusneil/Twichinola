@@ -2,8 +2,8 @@ package com.letusneil.twichinola.di
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
-import com.letusneil.twichinola.ui.browse_games.BrowseFragment
-import com.letusneil.twichinola.ui.game_streams.GameStreamFragment
+import com.letusneil.twichinola.ui.topgames.TopGamesFragment
+import com.letusneil.twichinola.ui.gamestreams.GameStreamFragment
 import com.letusneil.twichinola.ui.player.PlayerFragment
 import com.letusneil.twichinola.ui.player.QualityOptionsBottomSheetDialogFragment
 import dagger.BindsInstance
@@ -19,7 +19,7 @@ interface AppComponent {
     fun create(@BindsInstance applicationContext: Context): AppComponent
   }
 
-  fun inject(target: BrowseFragment)
+  fun inject(target: TopGamesFragment)
 
   fun inject(target: GameStreamFragment)
 

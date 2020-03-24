@@ -1,4 +1,4 @@
-package com.letusneil.twichinola.ui.browse_games
+package com.letusneil.twichinola.ui.topgames
 
 import android.view.View
 import android.widget.ImageView

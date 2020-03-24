@@ -3,21 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/launcherFragment">
-
-  <fragment
-      android:id="@+id/launcherFragment"
-      android:name="com.letusneil.twichinola.ui.launcher.LauncherFragment"
-      android:label="Launcher Fragment"
-      tools:layout="@layout/launcher_fragment">
-    <action
-        android:id="@+id/actionBrowse"
-        app:destination="@id/browseFragment" />
-  </fragment>
+    app:startDestination="@id/browseFragment">
 
   <fragment
       android:id="@+id/browseFragment"
-      android:name="com.letusneil.twichinola.ui.browse_games.BrowseFragment"
+      android:name="com.letusneil.twichinola.ui.topgames.TopGamesFragment"
       android:label="Browse Fragment"
       tools:layout="@layout/browse_fragment">
     <action
@@ -32,16 +22,16 @@
 
   <fragment
       android:id="@+id/gameFragment"
-      android:name="com.letusneil.twichinola.ui.game_streams.GameStreamFragment"
+      android:name="com.letusneil.twichinola.ui.gamestreams.GameStreamFragment"
       android:label="Game Fragment"
       tools:layout="@layout/game_streams_fragment">
     <action
         android:id="@+id/toPlayerFragment"
-        app:destination="@id/playerFragment" >
+        app:destination="@id/playerFragment">
       <argument
-        android:name="channelName"
-        android:defaultValue="_"
-        app:argType="string" />
+          android:name="channelName"
+          android:defaultValue="_"
+          app:argType="string" />
     </action>
   </fragment>
 
@@ -50,5 +40,15 @@
       android:name="com.letusneil.twichinola.ui.player.PlayerFragment"
       android:label="fragment_player"
       tools:layout="@layout/player_fragment" />
+
+  <action
+      android:id="@+id/global_action_search_fragment"
+      app:destination="@id/searchFragment" />
+
+  <fragment
+      android:id="@+id/searchFragment"
+      android:name="com.letusneil.twichinola.ui.search.SearchFragment"
+      android:label="fragment_search"
+      tools:layout="@layout/search_fragment" />
 
 </navigation>

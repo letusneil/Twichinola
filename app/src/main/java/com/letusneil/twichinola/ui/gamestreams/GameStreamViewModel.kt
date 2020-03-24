@@ -1,10 +1,12 @@
-package com.letusneil.twichinola.ui.game_streams
+package com.letusneil.twichinola.ui.gamestreams
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.letusneil.twichinola.api.TwitchApi
 import com.letusneil.twichinola.data.Stream
+import com.letusneil.twichinola.util.LIMIT
+import com.letusneil.twichinola.util.offset
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -22,23 +24,18 @@ class GameStreamViewModel @Inject constructor(
   val streams: List<Stream> get() = _streams
   private val _streams = mutableListOf<Stream>()
 
-  private var loadingNextPage = false
-
   fun getGameStreams(name: String) {
-    if (loadingNextPage) return
+    if (_viewEvent.value == GameStreamsUIState.Loading) return
 
-    loadingNextPage = true
     disposables.add(
-      twitchApi.streams(name, 10, streams.size)
+      twitchApi.streams(name, LIMIT, _streams.offset())
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ data ->
           _streams.addAll(data.streams)
           _viewEvent.value = GameStreamsUIState.Successful(_streams)
-          loadingNextPage = false
         }, {
           _viewEvent.value = GameStreamsUIState.Error
-          loadingNextPage = false
         })
     )
   }
