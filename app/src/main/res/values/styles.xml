@@ -22,9 +22,7 @@
 
     <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
     </item>
-    <item name="android:navigationBarColor">@color/navigation_bar</item>
-    <!-- Since the nav bar is white, we will use dark icons -->
-    <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+    <item name="android:navigationBarColor">@color/color_primary_dark</item>
 
     <item name="navigationViewStyle">@style/Widget.Twichinola.NavigationView</item>
   </style>

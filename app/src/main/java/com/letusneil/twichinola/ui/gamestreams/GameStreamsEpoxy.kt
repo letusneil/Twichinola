@@ -1,4 +1,4 @@
-package com.letusneil.twichinola.ui.game_streams
+package com.letusneil.twichinola.ui.gamestreams
 
 import android.view.View
 import android.widget.ImageView

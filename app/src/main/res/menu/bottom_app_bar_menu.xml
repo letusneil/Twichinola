@@ -7,10 +7,4 @@
       android:icon="@drawable/ic_search_24px"
       android:title="@string/menu_search"
       app:showAsAction="ifRoom" />
-
-  <item
-      android:id="@+id/menu_main_twitch"
-      android:icon="@drawable/ic_iconmonstr_twitch_1"
-      android:title="@string/menu_twitch"
-      app:showAsAction="ifRoom" />
 </menu>

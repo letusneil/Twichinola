@@ -31,6 +31,13 @@
       app:layout_constraintStart_toStartOf="@+id/playerView"
       app:layout_constraintTop_toTopOf="@+id/playerView">
 
+    <ImageView
+        android:id="@+id/game_stream_preview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="H,16:9"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ProgressBar
         android:id="@+id/playerLoadingIndicator"
         android:layout_width="24dp"
@@ -92,12 +99,28 @@
         android:src="@drawable/ic_settings_24px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/game_stream_viewer_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/viewers_count_background"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="2dp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="54,000 watching" />
+
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/streamInfoView"
       android:layout_width="0dp"
-      android:layout_height="120dp"
+      android:layout_height="wrap_content"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/playerOverlayView">
@@ -124,7 +147,7 @@
         tools:text="Dota2" />
 
     <TextView
-        android:id="@+id/streamernName"
+        android:id="@+id/streamerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -144,18 +167,43 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/streamernName"
-        app:layout_constraintTop_toBottomOf="@+id/streamernName"
+        app:layout_constraintStart_toStartOf="@+id/streamerName"
+        app:layout_constraintTop_toBottomOf="@+id/streamerName"
         tools:text="The big shark is a good shark" />
 
+    <TextView
+        android:id="@+id/game_stream_type_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/live_indicator_background"
+        android:paddingHorizontal="4dp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/gameName"
+        app:layout_constraintTop_toBottomOf="@+id/gameName"
+        tools:text="LIVE" />
+
+    <TextView
+        android:id="@+id/game_stream_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/language_indicator_background"
+        android:paddingHorizontal="4dp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/game_stream_type_indicator"
+        app:layout_constraintTop_toTopOf="@+id/game_stream_type_indicator"
+        tools:text="EN" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--  <View-->
-<!--      android:id="@+id/clickInterceptorView"-->
-<!--      android:layout_width="0dp"-->
-<!--      android:layout_height="0dp"-->
-<!--      app:layout_constraintBottom_toBottomOf="@+id/playerView"-->
-<!--      app:layout_constraintEnd_toEndOf="@+id/playerView"-->
-<!--      app:layout_constraintStart_toStartOf="@+id/playerView"-->
-<!--      app:layout_constraintTop_toTopOf="@+id/playerView" />-->
+  <View
+      android:id="@+id/clickInterceptorView"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="@+id/playerView"
+      app:layout_constraintEnd_toEndOf="@+id/playerView"
+      app:layout_constraintStart_toStartOf="@+id/playerView"
+      app:layout_constraintTop_toTopOf="@+id/playerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

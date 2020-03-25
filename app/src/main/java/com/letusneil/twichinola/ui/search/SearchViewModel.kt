@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.letusneil.twichinola.api.TwitchApi
 import com.letusneil.twichinola.data.Game
+import com.letusneil.twichinola.util.LIMIT
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -22,12 +23,13 @@ class SearchViewModel @Inject constructor(
   fun search(key: String) {
     disposables.add(
       twitchApi.searchGames(key)
+        .map { it.games.take(LIMIT) }
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
           _searchResults.value = SearchResult(it)
         }, {
-          _searchResults.value = null
+          _searchResults.value = SearchResult(emptyList())
         })
     )
   }

@@ -7,22 +7,36 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.letusneil.twichinola.R
+import com.letusneil.twichinola.data.GameStream
 import com.letusneil.twichinola.databinding.PlayerFragmentBinding
 import com.letusneil.twichinola.di.Twichinola
+import com.letusneil.twichinola.util.TEMPLATE_IMAGE_HEIGHT
+import com.letusneil.twichinola.util.TEMPLATE_IMAGE_WIDTH
 import com.letusneil.twichinola.util.autoCleared
 import timber.log.Timber
+import java.text.NumberFormat
+import java.util.*
 import javax.inject.Inject
 
 class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener {
@@ -34,37 +48,126 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
   private var qualityOptionsBottomSheet by autoCleared<QualityOptionsBottomSheetDialogFragment>()
   private var exoPlayer by autoCleared<ExoPlayer>()
 
-  private var delayAnimationHandler = Handler()
-  private val hideAnimationRunnable = Runnable {
-    if (activity != null && isAdded && !isRemoving) {
-      hidePlayerOverlay()
-    }
-  }
-
   private var landscape = false
   private var fullscreen = false
 
+  private val args: PlayerFragmentArgs by navArgs()
+  private var gameStream: GameStream? = null
+
+  private var delayAnimationHandler = Handler()
+  private val hideAnimationRunnable = Runnable {
+    if (activity != null && isAdded && !isRemoving) {
+      togglePlayerControlsVisibility(false)
+    }
+  }
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     binding = PlayerFragmentBinding.bind(view)
+    gameStream = args.channel
 
     exoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
     exoPlayer.addListener(this)
-    binding.playerView.player = exoPlayer
-
-//    binding.clickInterceptorView.setOnClickListener {
-//      if (isPlayerControlsVisible()) {
-//        hidePlayerOverlay()
-//      } else {
-//        showPlayerOverlay()
-//      }
-//    }
-    binding.fullScreenButton.setOnClickListener { toggleFullScreen() }
 
     qualityOptionsBottomSheet = QualityOptionsBottomSheetDialogFragment(playerViewModel)
-    binding.qualitySettingsButton.setOnClickListener {
-      qualityOptionsBottomSheet.show(requireActivity().supportFragmentManager, null)
+
+    binding.run {
+      playerView.player = exoPlayer
+
+      playerOverlayView.setOnClickListener {
+        if (fullscreen) toggleLeanbackMode()
+        togglePlayerControlsVisibility(!isPlayerControlsVisible())
+      }
+      fullScreenButton.setOnClickListener { toggleFullScreen() }
+
+      qualitySettingsButton.setOnClickListener {
+        qualityOptionsBottomSheet.show(requireActivity().supportFragmentManager, null)
+      }
+
+      backButton.setOnClickListener {
+        if (landscape) {
+          toggleFullScreen()
+        } else {
+          findNavController().navigateUp()
+        }
+      }
     }
 
+    if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+      landscape = true
+    }
+
+    requireActivity().onBackPressedDispatcher.addCallback(
+      viewLifecycleOwner, object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+          if (fullscreen) toggleFullScreen() else findNavController().navigateUp()
+        }
+      }
+    )
+
+    setupStreamUi()
+    setupStream()
+  }
+
+  override fun onResume() {
+    keepScreen(true)
+    super.onResume()
+  }
+
+  override fun onAttach(context: Context) {
+    Twichinola.dependencyInjector().inject(this)
+    super.onAttach(context)
+  }
+
+  private fun keepScreen(on: Boolean) {
+    if (on) {
+      activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    } else {
+      activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+  }
+
+  private fun setupStreamUi() {
+    gameStream?.let { stream ->
+      binding.run {
+        val context = gameStreamPreview.context
+        val screenWidth = context.resources.displayMetrics.widthPixels
+        Glide.with(context)
+          .load(
+            stream.previewImageUrl
+              .replace(TEMPLATE_IMAGE_WIDTH, screenWidth.toString(), true)
+              .replace(TEMPLATE_IMAGE_HEIGHT, ((screenWidth / 16) * 9).toString(), true)
+          )
+          .diskCacheStrategy(DiskCacheStrategy.NONE)
+          .transition(DrawableTransitionOptions.withCrossFade())
+          .into(gameStreamPreview)
+        Glide.with(context)
+          .load(stream.streamerImageUrl)
+          .apply(
+            RequestOptions
+              .centerCropTransform()
+              .circleCrop()
+          )
+          .transition(DrawableTransitionOptions.withCrossFade())
+          .into(streamerPictureView)
+        gameName.text = stream.game
+        streamerName.text = stream.streamer
+        if (stream.description.isNotEmpty()) {
+          streamDescription.text = stream.description
+        } else {
+          streamDescription.visibility = View.GONE
+        }
+        gameStreamViewerCount.text =
+          context.getString(
+            R.string.watching,
+            NumberFormat.getIntegerInstance().format(stream.viewersCount)
+          )
+        gameStreamTypeIndicator.text = stream.streamType.toUpperCase(Locale.ENGLISH)
+        gameStreamLanguage.text = stream.language.toUpperCase(Locale.ENGLISH)
+      }
+    }
+  }
+
+  private fun setupStream() {
     playerViewModel.streamQualities.observe(viewLifecycleOwner, Observer {
       preparePlayer(it[0].quality.url)
     })
@@ -72,13 +175,9 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
       preparePlayer(it)
     })
 
-    val channelName = arguments?.getString("channelName") ?: ""
-    playerViewModel.getStreamUrlAndQualityMap(channelName)
-  }
-
-  override fun onAttach(context: Context) {
-    Twichinola.dependencyInjector().inject(this)
-    super.onAttach(context)
+    gameStream?.run {
+      playerViewModel.getStreamUrlAndQualityMap(channelName)
+    }
   }
 
   private fun preparePlayer(url: String) {
@@ -90,6 +189,7 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
   }
 
   override fun onStop() {
+    keepScreen(false)
     exoPlayer.stop()
     exoPlayer.release()
     super.onStop()
@@ -101,7 +201,7 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
         Timber.d("Player state ready")
         binding.playerLoadingIndicator.visibility = View.GONE
 
-        hidePlayerOverlay()
+        togglePlayerControlsVisibility(false)
       }
       Player.STATE_BUFFERING -> {
         Timber.d("Player state buffering")
@@ -123,7 +223,7 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
 
   private fun resumeStream() {
     showPauseButton()
-    hidePlayerOverlay()
+    togglePlayerControlsVisibility(false)
   }
 
   private fun pauseStream() {
@@ -132,20 +232,24 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
 
   private fun isPlayerControlsVisible() = binding.playerOverlayView.alpha == 1f
 
-  private fun hidePlayerOverlay() {
-//    delayAnimationHandler.removeCallbacks(hideAnimationRunnable)
-//
-//    binding.playerOverlayView.apply {
-//      animate().alpha(0f).setInterpolator(AccelerateDecelerateInterpolator()).start()
-//    }
-  }
+  private fun togglePlayerControlsVisibility(show: Boolean) {
+    if (show) {
+      binding.playerOverlayView
+        .animate()
+        .alpha(1f)
+        .setInterpolator(AccelerateDecelerateInterpolator())
+        .start()
 
-  private fun showPlayerOverlay() {
-    binding.playerOverlayView.apply {
-      animate().alpha(1f).setInterpolator(AccelerateDecelerateInterpolator()).start()
+      delayAnimationHandler.postDelayed(hideAnimationRunnable, HIDE_ANIMATION_DELAY)
+    } else {
+      binding.gameStreamPreview.visibility = View.GONE
+      binding.playerOverlayView
+        .animate()
+        .alpha(0f)
+        .setInterpolator(AccelerateDecelerateInterpolator())
+        .start()
     }
-
-    delayAnimationHandler.postDelayed(hideAnimationRunnable, HIDE_ANIMATION_DELAY)
+    changeOverlayClickable(show)
   }
 
   private fun showPlayButton() {
@@ -160,13 +264,23 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
 
   private fun toggleFullScreen() {
     fullscreen = !fullscreen
+
     activity?.run {
-      this.requestedOrientation =
+      requestedOrientation =
         if (fullscreen) ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
+    toggleLeanbackMode()
     updateFullscreenButtonState()
+    setVideoLayout()
+  }
+
+  private fun changeOverlayClickable(clickable: Boolean) {
+    binding.clickInterceptorView.run {
+      visibility = (if (clickable) View.GONE else View.VISIBLE)
+      setOnClickListener { binding.playerOverlayView.performClick() }
+    }
   }
 
   private fun updateFullscreenButtonState() {
@@ -175,6 +289,29 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
     } else {
       binding.fullScreenButton.setImageResource(R.drawable.ic_fullscreen_24px)
     }
+  }
+
+  private fun setVideoLayout() {
+    val contentFrame = binding.root.findViewById<AspectRatioFrameLayout>(R.id.exo_content_frame)
+    if (landscape) {
+      contentFrame.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+    } else {
+      contentFrame.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
+    }
+  }
+
+  private fun toggleLeanbackMode() {
+    activity?.window?.decorView?.systemUiVisibility =
+      if (fullscreen) (
+          View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+              or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+              or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+              or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+              or View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+              or View.SYSTEM_UI_FLAG_IMMERSIVE
+          ) else (
+          View.SYSTEM_UI_FLAG_VISIBLE
+          )
   }
 
   override fun onConfigurationChanged(newConfig: Configuration) {

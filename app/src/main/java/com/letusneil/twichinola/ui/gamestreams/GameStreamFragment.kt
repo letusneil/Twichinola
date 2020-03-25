@@ -8,9 +8,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.letusneil.twichinola.R
+import com.letusneil.twichinola.data.GameStream
 import com.letusneil.twichinola.data.Stream
 import com.letusneil.twichinola.databinding.GameStreamsFragmentBinding
 import com.letusneil.twichinola.di.Twichinola
@@ -26,6 +28,8 @@ class GameStreamFragment : Fragment(R.layout.game_streams_fragment) {
 
   private val viewModel: GameStreamViewModel by viewModels { viewModelFactory }
 
+  private val args: GameStreamFragmentArgs by navArgs()
+
   override fun onAttach(context: Context) {
     Twichinola.dependencyInjector().inject(this)
     super.onAttach(context)
@@ -33,7 +37,7 @@ class GameStreamFragment : Fragment(R.layout.game_streams_fragment) {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     binding = GameStreamsFragmentBinding.bind(view)
-    val gameName = arguments?.getString("gameName") ?: ""
+    val gameName = args.gameName
 
     binding.streamsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
       override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -73,7 +77,19 @@ class GameStreamFragment : Fragment(R.layout.game_streams_fragment) {
             viewersCount(viewers)
             listener {
               findNavController().navigate(
-                GameStreamFragmentDirections.toPlayerFragment(channel.name)
+                GameStreamFragmentDirections.toPlayerFragment(
+                  GameStream(
+                    channelName = channel.name,
+                    game = game,
+                    streamer = channel.display_name,
+                    previewImageUrl = preview.template,
+                    streamerImageUrl = channel.logo,
+                    description = channel.status,
+                    streamType = stream_type,
+                    language = channel.broadcaster_language,
+                    viewersCount = viewers
+                  )
+                )
               )
             }
           }

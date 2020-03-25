@@ -6,6 +6,7 @@ import com.letusneil.twichinola.ui.topgames.TopGamesFragment
 import com.letusneil.twichinola.ui.gamestreams.GameStreamFragment
 import com.letusneil.twichinola.ui.player.PlayerFragment
 import com.letusneil.twichinola.ui.player.QualityOptionsBottomSheetDialogFragment
+import com.letusneil.twichinola.ui.search.SearchFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -26,6 +27,8 @@ interface AppComponent {
   fun inject(target: PlayerFragment)
 
   fun inject(target: QualityOptionsBottomSheetDialogFragment)
+
+  fun inject(target: SearchFragment)
 
   val viewModelFactory: ViewModelProvider.Factory
 }

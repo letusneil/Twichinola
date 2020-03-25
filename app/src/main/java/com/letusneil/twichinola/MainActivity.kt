@@ -2,6 +2,7 @@ package com.letusneil.twichinola
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -41,10 +42,12 @@ class MainActivity : AppCompatActivity(),
   ) {
     when (destination.id) {
       R.id.browseFragment -> {
+        binding.bottomAppBar.visibility = View.VISIBLE
         binding.bottomAppBar.performShow()
       }
       else -> {
         binding.bottomAppBar.performHide()
+        binding.bottomAppBar.visibility = View.GONE
       }
     }
   }
@@ -54,9 +57,6 @@ class MainActivity : AppCompatActivity(),
       R.id.menu_main_search -> {
         findNavController(R.id.nav_host_fragment)
           .navigate(R.id.global_action_search_fragment)
-      }
-      R.id.menu_main_twitch -> {
-
       }
     }
     return true
