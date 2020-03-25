@@ -18,7 +18,6 @@
         android:name="com.letusneil.twichinola.MainActivity"
         android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
         android:screenOrientation="sensor"
-        android:theme="@style/Twichinola.BaseSplash"
         android:windowSoftInputMode="adjustPan">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
