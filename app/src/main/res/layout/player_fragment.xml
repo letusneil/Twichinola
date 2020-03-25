@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ui.player.PlayerFragment">
+
+  <com.google.android.exoplayer2.ui.PlayerView
+      android:id="@+id/playerView"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintDimensionRatio="16:9"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.0"
+      app:use_controller="false">
+
+  </com.google.android.exoplayer2.ui.PlayerView>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/playerOverlayView"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:background="@color/black_opacity_40"
+      app:layout_constraintBottom_toBottomOf="@+id/playerView"
+      app:layout_constraintEnd_toEndOf="@+id/playerView"
+      app:layout_constraintStart_toStartOf="@+id/playerView"
+      app:layout_constraintTop_toTopOf="@+id/playerView">
+
+    <ImageView
+        android:id="@+id/game_stream_preview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:transitionName="streamPreviewTransition"
+        app:layout_constraintDimensionRatio="H,16:9"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/playerLoadingIndicator"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:indeterminateTint="@color/green_A100"
+        android:scaleX="2"
+        android:scaleY="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/fullScreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:src="@drawable/ic_fullscreen_24px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/playButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_play_arrow_24px"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/pauseButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_pause_24px"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:src="@drawable/ic_arrow_back_24px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/qualitySettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:src="@drawable/ic_settings_24px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/game_stream_viewer_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/viewers_count_background"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="2dp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="54,000 watching" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/streamInfoView"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:background="@color/window_background"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/playerOverlayView">
+
+    <ImageView
+        android:id="@+id/streamerPictureView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/gameName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/color_accent"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/streamDescription"
+        app:layout_constraintTop_toBottomOf="@+id/streamDescription"
+        tools:text="Dota2" />
+
+    <TextView
+        android:id="@+id/streamerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/streamerPictureView"
+        app:layout_constraintTop_toTopOf="@+id/streamerPictureView"
+        tools:text="Arteezy" />
+
+    <TextView
+        android:id="@+id/streamDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:maxLines="2"
+        android:textColor="@color/white_opacity_80"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/streamerName"
+        app:layout_constraintTop_toBottomOf="@+id/streamerName"
+        tools:text="The big shark is a good shark" />
+
+    <TextView
+        android:id="@+id/game_stream_type_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/live_indicator_background"
+        android:paddingHorizontal="4dp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/gameName"
+        app:layout_constraintTop_toBottomOf="@+id/gameName"
+        tools:text="LIVE" />
+
+    <TextView
+        android:id="@+id/game_stream_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/language_indicator_background"
+        android:paddingHorizontal="4dp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/game_stream_type_indicator"
+        app:layout_constraintTop_toTopOf="@+id/game_stream_type_indicator"
+        tools:text="EN" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <View
+      android:id="@+id/clickInterceptorView"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="@+id/playerView"
+      app:layout_constraintEnd_toEndOf="@+id/playerView"
+      app:layout_constraintStart_toStartOf="@+id/playerView"
+      app:layout_constraintTop_toTopOf="@+id/playerView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

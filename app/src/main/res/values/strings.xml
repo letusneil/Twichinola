@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Twichinola</string>
+  <string name="app_name">Twichinola</string>
+
+  <string name="watching">%1$s Watching</string>
+  <string name="search_games">Search games...</string>
+
 </resources>

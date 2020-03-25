@@ -1,11 +1,61 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+  <style name="Theme.Twichinola.DayNight" parent="Theme.Twichinola" />
 
+  <style name="Theme.Twichinola" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <item name="colorPrimary">@color/color_primary</item>
+    <item name="colorPrimaryDark">@color/color_primary_dark</item>
+    <item name="colorAccent">@color/color_accent</item>
+
+    <item name="android:textViewStyle">@style/PoppinsTextViewStyle</item>
+    <item name="buttonStyle">@style/PoppinsButtonStyle</item>
+    <item name="editTextStyle">@style/Twichinola.EditText</item>
+
+    <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Twichinola.SmallComponent
+    </item>
+    <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Twichinola.MediumComponent
+    </item>
+    <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Twichinola.LargeComponent
+    </item>
+
+    <item name="textAppearanceBody2">@style/TextAppearance.Twichinola.Body2</item>
+
+    <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
+    </item>
+    <item name="android:navigationBarColor">@color/color_primary_dark</item>
+
+    <item name="navigationViewStyle">@style/Widget.Twichinola.NavigationView</item>
+  </style>
+
+  <style name="PoppinsTextViewStyle" parent="android:Widget.TextView">
+    <item name="android:fontFamily">@font/poppins</item>
+  </style>
+
+  <style name="PoppinsButtonStyle" parent="TextAppearance.MaterialComponents.Button">
+    <item name="android:fontFamily">@font/poppins</item>
+  </style>
+
+  <style name="Twichinola.BaseSplash" parent="Theme.Twichinola.DayNight">
+    <item name="android:windowBackground">@color/window_background</item>
+  </style>
+
+  <style name="Twichinola.EditText" parent="@android:style/Widget.EditText">
+    <item name="android:background">@color/window_background</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:textColorHint">@color/white</item>
+    <item name="android:fontFamily">@font/poppins</item>
+    <item name="android:layout_height">45dp</item>
+    <item name="background">@null</item>
+  </style>
+
+  <style name="Widget.Twichinola.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+    <!--Remove any scrim insets applied by NavigationView for system bars-->
+    <item name="insetForeground">@android:color/transparent</item>
+    <!--Set the background color of NavigationView-->
+    <item name="android:background">@android:color/transparent</item>
+    <item name="elevation">0dp</item>
+    <item name="itemTextAppearance">?attr/textAppearanceBody2</item>
+    <item name="itemTextColor">@color/black</item>
+    <item name="itemIconTint">@color/black</item>
+  </style>
 </resources>

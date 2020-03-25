@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
   compileSdkVersion versions.compileSdk
@@ -21,23 +22,45 @@ android {
     }
   }
   buildTypes.each {
+    it.buildConfigField 'String', 'TWICHINOLA_CLIENT_ID', TwichinolaClientId
     it.buildConfigField 'String', 'TWITCH_CLIENT_ID', TwitchClientId
   }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+  viewBinding {
+    enabled = true
+  }
+}
+
+kapt {
+  correctErrorTypes = true
 }
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 
-  implementation 'androidx.appcompat:appcompat:1.1.0'
-  implementation 'androidx.core:core-ktx:1.1.0'
+  implementation "androidx.appcompat:appcompat:$versions.androidx"
+  implementation "androidx.core:core-ktx:1.2.0"
+  implementation 'androidx.recyclerview:recyclerview:1.1.0'
+  implementation "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+  implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
+  implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+  implementation "androidx.preference:preference-ktx:$versions.androidx"
   implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
   implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"
   implementation "com.squareup.okhttp3:logging-interceptor:$versions.okHttp"
   implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
   implementation "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
   implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
+  implementation "com.squareup.retrofit2:converter-scalars:$versions.retrofit"
   implementation "com.github.bumptech.glide:glide:$versions.glide"
+  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
   kapt "com.github.bumptech.glide:compiler:$versions.glide"
   implementation "com.github.bumptech.glide:okhttp3-integration:$versions.glide"
   implementation "com.google.dagger:dagger:$versions.dagger"
@@ -45,9 +68,20 @@ dependencies {
   implementation 'io.reactivex.rxjava2:rxjava:2.2.14'
   implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
   implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
+  implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
+  implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.1.0'
+  implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.1.0'
   implementation "com.jakewharton.timber:timber:$versions.timber"
   implementation "com.facebook.stetho:stetho:$versions.stetho"
   implementation "com.facebook.stetho:stetho-okhttp3:$versions.stetho"
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+  implementation "com.airbnb.android:epoxy:$versions.epoxy"
+  kapt "com.airbnb.android:epoxy-processor:$versions.epoxy"
+  implementation "com.jakewharton:butterknife:$versions.butterknife"
+  kapt "com.jakewharton:butterknife-compiler:$versions.butterknife"
+  implementation "androidx.fragment:fragment-ktx:$versions.fragment"
+  implementation 'com.google.android.exoplayer:exoplayer:2.11.3'
+  implementation 'com.google.android.material:material:1.2.0-alpha05'
 
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'androidx.test.ext:junit:1.1.1'
