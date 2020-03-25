@@ -6,8 +6,6 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.transition.ChangeBounds
-import android.transition.TransitionInflater
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -29,18 +27,13 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.jakewharton.rxbinding3.view.systemUiVisibilityChanges
-import com.jakewharton.rxbinding3.view.visibility
 import com.letusneil.twichinola.R
 import com.letusneil.twichinola.data.GameStream
 import com.letusneil.twichinola.databinding.PlayerFragmentBinding
 import com.letusneil.twichinola.di.Twichinola
-import com.letusneil.twichinola.util.TEMPLATE_IMAGE_HEIGHT
-import com.letusneil.twichinola.util.TEMPLATE_IMAGE_WIDTH
 import com.letusneil.twichinola.util.autoCleared
 import timber.log.Timber
 import java.text.NumberFormat
-import java.util.*
 import javax.inject.Inject
 
 class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener {
@@ -108,13 +101,15 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
       }
     )
 
-    setupStreamUi()
-    setupStream()
+    playerViewModel.urlToPlay.observe(viewLifecycleOwner, Observer { preparePlayer(it) })
+    gameStream?.run { playerViewModel.getStreamUrlAndQualityMap(channelName) }
+
+    setupStreamerUi()
   }
 
   override fun onResume() {
-    keepScreen(true)
     super.onResume()
+    resumeStream()
   }
 
   override fun onAttach(context: Context) {
@@ -130,7 +125,7 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
     }
   }
 
-  private fun setupStreamUi() {
+  private fun setupStreamerUi() {
     gameStream?.let { stream ->
       binding.run {
         val context = gameStreamPreview.context
@@ -167,62 +162,49 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
     }
   }
 
-  private fun setupStream() {
-    playerViewModel.urlToPlay.observe(viewLifecycleOwner, Observer { preparePlayer(it) })
-
-    gameStream?.run {
-      playerViewModel.getStreamUrlAndQualityMap(channelName)
-    }
-  }
-
   private fun preparePlayer(url: String) {
     Timber.d("Preparing stream url $url")
     val dataSourceFactory = DefaultDataSourceFactory(requireContext(), getString(R.string.app_name))
     val mediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(url))
     exoPlayer.prepare(mediaSource)
     exoPlayer.playWhenReady = true
+    keepScreen(true)
   }
 
-  override fun onStop() {
+  override fun onPause() {
     keepScreen(false)
-    exoPlayer.stop()
-    exoPlayer.release()
-    super.onStop()
+    pauseStream()
+    super.onPause()
   }
 
   override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
     when (playbackState) {
       Player.STATE_READY -> {
-        Timber.d("Player state ready")
         binding.playerLoadingIndicator.visibility = View.GONE
-
         togglePlayerControlsVisibility(false)
       }
       Player.STATE_BUFFERING -> {
-        Timber.d("Player state buffering")
-
         binding.playerLoadingIndicator.visibility = View.VISIBLE
       }
       Player.STATE_IDLE -> {
-        Timber.d("Player state idle")
       }
       Player.STATE_ENDED -> {
-        Timber.d("Player state ended")
       }
     }
   }
 
   override fun onPlayerError(error: ExoPlaybackException) {
     super.onPlayerError(error)
+    Timber.e(error)
   }
 
   private fun resumeStream() {
-    showPauseButton()
+    exoPlayer.playWhenReady = true
     togglePlayerControlsVisibility(false)
   }
 
   private fun pauseStream() {
-    showPlayButton()
+    exoPlayer.playWhenReady = false
   }
 
   private fun isPlayerControlsVisible() = binding.playerOverlayView.alpha == 1f
@@ -245,16 +227,6 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
         .start()
     }
     changeOverlayClickable(show)
-  }
-
-  private fun showPlayButton() {
-    binding.playButton.visibility = View.VISIBLE
-    binding.pauseButton.visibility = View.GONE
-  }
-
-  private fun showPauseButton() {
-    binding.playButton.visibility = View.GONE
-    binding.pauseButton.visibility = View.VISIBLE
   }
 
   private fun toggleFullScreen() {
