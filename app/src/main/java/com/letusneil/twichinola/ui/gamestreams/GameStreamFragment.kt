@@ -66,7 +66,7 @@ class GameStreamFragment : Fragment(R.layout.game_streams_fragment) {
         with(stream) {
           gameStreamsEpoxyHolder {
             id("stream_id_${channel.name}")
-            Timber.d("Id stream_id_${channel.name}")
+            channelName(channel.name)
             gameName(game)
             streamerName(channel.display_name)
             streamPreviewImageUrl(preview.template)
@@ -75,21 +75,10 @@ class GameStreamFragment : Fragment(R.layout.game_streams_fragment) {
             streamType(stream_type)
             streamLanguage(channel.broadcaster_language)
             viewersCount(viewers)
-            listener {
+
+            listener { stream, extras ->
               findNavController().navigate(
-                GameStreamFragmentDirections.toPlayerFragment(
-                  GameStream(
-                    channelName = channel.name,
-                    game = game,
-                    streamer = channel.display_name,
-                    previewImageUrl = preview.template,
-                    streamerImageUrl = channel.logo,
-                    description = channel.status,
-                    streamType = stream_type,
-                    language = channel.broadcaster_language,
-                    viewersCount = viewers
-                  )
-                )
+                GameStreamFragmentDirections.toPlayerFragment(stream), extras
               )
             }
           }

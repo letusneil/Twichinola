@@ -39,7 +39,7 @@ class QualityOptionsBottomSheetDialogFragment(
             it.name.equals(menuItem.title.toString(), true)
           }?.quality?.url ?: ""
         Timber.d("stream url $streamUrl")
-        playerViewModel.qualityChangeEvent.postValue(streamUrl)
+        playerViewModel.urlToPlay.postValue(streamUrl)
         true
       }
     }

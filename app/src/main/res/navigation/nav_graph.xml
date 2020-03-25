@@ -11,8 +11,7 @@
       android:label="Browse Fragment">
     <action
         android:id="@+id/toGameFragment"
-        app:destination="@id/gameFragment">
-    </action>
+        app:destination="@id/gameFragment" />
   </fragment>
 
   <fragment
@@ -25,14 +24,13 @@
         app:argType="string" />
     <action
         android:id="@+id/toPlayerFragment"
-        app:destination="@id/playerFragment">
-    </action>
+        app:destination="@id/playerFragment" />
   </fragment>
 
   <fragment
       android:id="@+id/playerFragment"
       android:name="com.letusneil.twichinola.ui.player.PlayerFragment"
-      android:label="fragment_player" >
+      android:label="fragment_player">
     <argument
         android:name="channel"
         android:defaultValue="@null"
@@ -42,7 +40,9 @@
 
   <action
       android:id="@+id/global_action_search_fragment"
-      app:destination="@id/searchFragment" />
+      app:destination="@id/searchFragment"
+      app:enterAnim="@anim/slide_up"
+      app:popExitAnim="@anim/slide_down" />
 
   <fragment
       android:id="@+id/searchFragment"

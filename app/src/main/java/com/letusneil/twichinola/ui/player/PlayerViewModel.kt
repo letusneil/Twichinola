@@ -26,7 +26,7 @@ class PlayerViewModel @Inject constructor(
   val streamQualities: LiveData<List<LiveStreamQuality>> get() = _streamQualities
   private val _streamQualities = MutableLiveData<List<LiveStreamQuality>>()
 
-  val qualityChangeEvent = MutableLiveData<String>()
+  val urlToPlay = MutableLiveData<String>()
 
   private var autoQualityUrl = ""
 
@@ -51,7 +51,11 @@ class PlayerViewModel @Inject constructor(
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
-          _streamQualities.value = getStreamQualityUrlMap(it)
+          val streamQualityMap = getStreamQualityUrlMap(it)
+          _streamQualities.value = streamQualityMap
+          if (urlToPlay.value.isNullOrEmpty()) {
+            urlToPlay.postValue(streamQualityMap[0].quality.url)
+          }
         }, {
           Timber.e(it)
         })

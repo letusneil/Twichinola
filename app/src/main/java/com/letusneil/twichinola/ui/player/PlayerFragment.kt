@@ -6,6 +6,8 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.transition.ChangeBounds
+import android.transition.TransitionInflater
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -27,6 +29,8 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.jakewharton.rxbinding3.view.systemUiVisibilityChanges
+import com.jakewharton.rxbinding3.view.visibility
 import com.letusneil.twichinola.R
 import com.letusneil.twichinola.data.GameStream
 import com.letusneil.twichinola.databinding.PlayerFragmentBinding
@@ -130,14 +134,10 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
     gameStream?.let { stream ->
       binding.run {
         val context = gameStreamPreview.context
-        val screenWidth = context.resources.displayMetrics.widthPixels
+        gameStreamPreview.transitionName = stream.previewImageUrl
         Glide.with(context)
-          .load(
-            stream.previewImageUrl
-              .replace(TEMPLATE_IMAGE_WIDTH, screenWidth.toString(), true)
-              .replace(TEMPLATE_IMAGE_HEIGHT, ((screenWidth / 16) * 9).toString(), true)
-          )
-          .diskCacheStrategy(DiskCacheStrategy.NONE)
+          .load(stream.previewImageUrl)
+          .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
           .transition(DrawableTransitionOptions.withCrossFade())
           .into(gameStreamPreview)
         Glide.with(context)
@@ -161,19 +161,14 @@ class PlayerFragment : Fragment(R.layout.player_fragment), Player.EventListener 
             R.string.watching,
             NumberFormat.getIntegerInstance().format(stream.viewersCount)
           )
-        gameStreamTypeIndicator.text = stream.streamType.toUpperCase(Locale.ENGLISH)
-        gameStreamLanguage.text = stream.language.toUpperCase(Locale.ENGLISH)
+        gameStreamTypeIndicator.text = stream.streamType
+        gameStreamLanguage.text = stream.language
       }
     }
   }
 
   private fun setupStream() {
-    playerViewModel.streamQualities.observe(viewLifecycleOwner, Observer {
-      preparePlayer(it[0].quality.url)
-    })
-    playerViewModel.qualityChangeEvent.observe(viewLifecycleOwner, Observer {
-      preparePlayer(it)
-    })
+    playerViewModel.urlToPlay.observe(viewLifecycleOwner, Observer { preparePlayer(it) })
 
     gameStream?.run {
       playerViewModel.getStreamUrlAndQualityMap(channelName)

@@ -69,10 +69,10 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="8dp"
       android:layout_marginBottom="8dp"
-      android:textColor="@color/white"
-      android:paddingHorizontal="4dp"
-      android:textSize="10sp"
       android:background="@drawable/viewers_count_background"
+      android:paddingHorizontal="4dp"
+      android:textColor="@color/white"
+      android:textSize="10sp"
       app:layout_constraintBottom_toBottomOf="@+id/game_stream_preview"
       app:layout_constraintStart_toStartOf="parent"
       tools:text="54,000 watching" />
